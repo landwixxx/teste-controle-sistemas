@@ -1,0 +1,8 @@
+CREATE SCHEMA `agenda_db` DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci ;
+drop table contatos;
+create table if not exists contatos(
+id int NOT NULL AUTO_INCREMENT,
+number varchar(45),
+name varchar(45),
+PRIMARY KEY(id)
+);

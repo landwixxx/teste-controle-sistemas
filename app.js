@@ -1,10 +1,15 @@
 const expess = require('express');
 const app = expess();
 const morgan = require('morgan');
+const bodyParser = require('body-parser');
+
 const contactsRoute = require('./routes/contacts');
 
 
 app.use(morgan('dev'));
+app.use(bodyParser.urlencoded({extended: false}))
+app.use(bodyParser.json());
+
 app.use('/contatos', contactsRoute);
 
 app.use((req,res,next)=>{
