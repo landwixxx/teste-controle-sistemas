@@ -1,8 +1,6 @@
-const expess = require('express');
-const router = expess.Router();
 const mysql = require('../mysql').pool;
 
-router.get('/', (req, res, next) => {
+exports.getContatos = (req, res, next) => {
     mysql.getConnection((error, conn)=>{
         if (error){ return res.status(500).send({error: error})}
 
@@ -12,11 +10,39 @@ router.get('/', (req, res, next) => {
             return res.status(200).send({response: resultado})
         })
     })
-});
+};
 
+exports.fetchContato =  (req, res, next) => {
+    const contact = {
+        name : req.body.nome,
+        number : req.body.numero,
+        id : req.body.id
+    }  
 
+    mysql.getConnection((error, conn)=>{
+        conn.query(
+            'SELECT * from contatos WHERE id = ?',
+            [contact.id ],            
+            (error, resultado, field) => {
+            conn.release();
 
-router.post('/', (req, res, next) => {
+                if(error){
+                    res.status(500).send({
+                        error: error,
+                        response: null
+                    });
+                }
+
+                return res.status(202).send({
+                    mensagem: 'Buscando contato',
+                    resultado
+                });
+            }
+        )
+    })
+};
+
+exports.postContato = (req, res, next) => {
     const contact = {
         name : req.body.nome,
         number : req.body.numero
@@ -45,9 +71,9 @@ router.post('/', (req, res, next) => {
             }
         )
     });    
-})
+};
 
-router.patch('/', (req, res, next) => {
+exports.patchContato = (req, res, next) => {
     const contact = {
         name : req.body.nome,
         number : req.body.numero,
@@ -77,9 +103,9 @@ router.patch('/', (req, res, next) => {
         )
     })
 
-})
+};
 
-router.delete('/:contact_number', (req, res, next) => {
+exports.deleteContato = (req, res, next) => {
     const contact = {
         name : req.body.nome,
         number : req.body.numero,
@@ -108,8 +134,5 @@ router.delete('/:contact_number', (req, res, next) => {
             }
         )
     })
-})
+};
 
-
-
-module.exports = router;
