@@ -6,13 +6,11 @@ router.get('/', contacts_controller.getContatos);
 
 router.get('/:contact_id', contacts_controller.fetchContato)
 
-
-
 router.post('/', contacts_controller.postContato)
 
 router.patch('/', contacts_controller.patchContato)
 
-router.delete('/:contact_number', contacts_controller.deleteContato)
+router.delete('/:contact_id', contacts_controller.deleteContato)
 
 
 

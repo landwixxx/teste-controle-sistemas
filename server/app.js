@@ -2,10 +2,10 @@ const expess = require('express');
 const app = expess();
 const morgan = require('morgan');
 const bodyParser = require('body-parser');
-
+const cors = require('cors');
 const contactsRoute = require('./routes/contacts');
 
-
+app.use(cors());
 app.use(morgan('dev'));
 app.use(bodyParser.urlencoded({extended: false}))
 app.use(bodyParser.json());
